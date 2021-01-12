@@ -2,10 +2,17 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;  
 
+class NegativeNumberException extends Exception {
+
+	public NegativeNumberException(String string) {
+		super(string);
+	}
+
+}
 
 public class Calculator {
 
-    public int add(String arg) {
+    public int add(String arg) throws NegativeNumberException {
 
         char delimiter = ',';
         String modifiedArg = arg;
@@ -17,6 +24,12 @@ public class Calculator {
         List<Integer> numbers = Arrays.stream(modifiedArg.split(Character.toString(delimiter)))
         .map(Integer::parseInt)
         .collect(Collectors.toList());
+
+        List<Integer> filterNumber = numbers.stream().filter(num -> num < 0).collect(Collectors.toList());
+
+        if(filterNumber.size() > 0) {
+            throw new NegativeNumberException("negative number not allowed");
+        }
 
         int sum = numbers.stream().reduce(0, 
                 (element1, element2) -> element1 + element2); 
@@ -30,8 +43,13 @@ public class Calculator {
         System.out.println("Please Enter the required String to evaluate");
         Scanner sc = new Scanner(System.in);
         String a = sc.nextLine();
-        sum = calc.add(a);
-        System.out.println(sum);
+        try {
+            sum = calc.add(a);
+            System.out.println(sum);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         
     }
 }

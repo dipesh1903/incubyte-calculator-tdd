@@ -7,8 +7,14 @@ public class Calculator {
 
     public int add(String arg) {
 
-        String modifiedArg = arg.replaceAll("\\\\n", ",");
-        List<Integer> numbers = Arrays.stream(modifiedArg.split(","))
+        char delimiter = ',';
+        String modifiedArg = arg;
+        if (arg.startsWith("//")) {
+            delimiter = arg.charAt(2);
+            modifiedArg = modifiedArg.substring(3);
+        }
+        modifiedArg = modifiedArg.replaceAll("\\\\n", Character.toString(delimiter));
+        List<Integer> numbers = Arrays.stream(modifiedArg.split(Character.toString(delimiter)))
         .map(Integer::parseInt)
         .collect(Collectors.toList());
 

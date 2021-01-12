@@ -7,7 +7,8 @@ public class Calculator {
 
     public int add(String arg) {
 
-        List<Integer> numbers = Arrays.stream(arg.split(","))
+        String modifiedArg = arg.replaceAll("\\\\n", ",");
+        List<Integer> numbers = Arrays.stream(modifiedArg.split(","))
         .map(Integer::parseInt)
         .collect(Collectors.toList());
 
@@ -20,11 +21,10 @@ public class Calculator {
 
         Calculator calc = new Calculator();
         int sum = 0;
-        if(args.length == 0) {
-            sum = 0;
-        } else {
-            sum = calc.add(args[0]);
-        }
+        System.out.println("Please Enter the required String to evaluate");
+        Scanner sc = new Scanner(System.in);
+        String a = sc.nextLine();
+        sum = calc.add(a);
         System.out.println(sum);
         
     }

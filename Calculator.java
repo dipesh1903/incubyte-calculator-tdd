@@ -14,14 +14,27 @@ public class Calculator {
 
     public int add(String arg) throws NegativeNumberException {
 
+
+        Set<String> st = new HashSet<String>();
         char delimiter = ',';
         String modifiedArg = arg;
+        String delimiterArr = "";
+
         if (arg.startsWith("//")) {
+
             delimiter = arg.charAt(2);
-            modifiedArg = modifiedArg.substring(3);
+            int endIndex = modifiedArg.indexOf("\\n");
+            delimiterArr = modifiedArg.substring(2, endIndex);
+            st.addAll(Arrays.asList(delimiterArr.split(",")));
+            delimiterArr = String.join("", st);
+            modifiedArg = modifiedArg.substring(endIndex+2);
+            modifiedArg = modifiedArg.replaceAll("[" + delimiterArr + "]+", ",");
+
         }
-        modifiedArg = modifiedArg.replaceAll("\\\\n", Character.toString(delimiter));
-        List<Integer> numbers = Arrays.stream(modifiedArg.split(Character.toString(delimiter)))
+
+        modifiedArg = modifiedArg.replaceAll("\\\\n", ",");
+
+        List<Integer> numbers = Arrays.stream(modifiedArg.split(","))
         .map(Integer::parseInt)
         .filter(num -> num <= 1000).collect(Collectors.toList());
 

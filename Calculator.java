@@ -23,7 +23,7 @@ public class Calculator {
         modifiedArg = modifiedArg.replaceAll("\\\\n", Character.toString(delimiter));
         List<Integer> numbers = Arrays.stream(modifiedArg.split(Character.toString(delimiter)))
         .map(Integer::parseInt)
-        .collect(Collectors.toList());
+        .filter(num -> num <= 1000).collect(Collectors.toList());
 
         List<Integer> filterNumber = numbers.stream().filter(num -> num < 0).collect(Collectors.toList());
 
